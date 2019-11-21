@@ -1,0 +1,9 @@
+[submodule "Dependencies/SFML"]
+	path = Dependencies/SFML
+	url = https://github.com/SFML/SFML.git
+[submodule "Dependencies/ImguiRepo/imgui"]
+	path = Dependencies/ImguiRepo/imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "Dependencies/glbinding"]
+	path = Dependencies/glbinding
+	url = https://github.com/cginternals/glbinding.git
