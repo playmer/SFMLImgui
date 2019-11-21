@@ -128,11 +128,16 @@ int main(int, char**)
     //SDL_GLContext gl_context = SDL_GL_CreateContext(window);
     //SDL_GL_MakeCurrent(window, gl_context);
     //SDL_GL_SetSwapInterval(1); // Enable vsync
-
+	sf::ContextSettings settings;
+	settings.depthBits = 24;
+	settings.stencilBits = 8;
+	settings.antialiasingLevel = 4;
+	settings.majorVersion = 3;
+	settings.minorVersion = 0;
 	
 
 	
-    sf::Window window(sf::VideoMode(1280, 720), "Dear ImGui SFML+OpenGL3 example");
+    sf::Window window(sf::VideoMode(1280, 720), "Dear ImGui SFML+OpenGL3 example", sf::Style::Default, settings);
 
     glbinding::initialize(GLFunctionLoader);
 
@@ -152,6 +157,7 @@ int main(int, char**)
     //ImGui::StyleColorsClassic();
 
     // Setup Platform/Renderer bindings
+    ImGui_ImplSFML_Init(&window);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     // Load Fonts
@@ -190,8 +196,15 @@ int main(int, char**)
         {
             ImGui_ImplSFML_ProcessEvent(&event);
 
-            if (event.type == sf::Event::Closed)
+			if (event.type == sf::Event::Closed)
+			{
                 window.close();
+			}
+            else if (event.type == sf::Event::Resized)
+            {
+                // adjust the viewport when the window is resized
+                glViewport(0, 0, event.size.width, event.size.height);
+            }
         }
 
         // Start the Dear ImGui frame
@@ -242,7 +255,7 @@ int main(int, char**)
         glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
+		
 		window.display();
     }
 

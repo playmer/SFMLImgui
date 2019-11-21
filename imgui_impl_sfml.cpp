@@ -36,7 +36,7 @@ static void ImGui_ImplSFML_SetClipboardText(void*, const char* text)
 // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
 // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 // If you have multiple SDL events and some of them are not meant to be used by dear imgui, you may need to filter events based on their windowID field.
-bool ImGui_ImplSFML_ProcessEvent(const sf::Event* event)
+IMGUI_IMPL_API bool ImGui_ImplSFML_ProcessEvent(const sf::Event* event)
 {
     ImGuiIO& io = ImGui::GetIO();
     switch (event->type)
@@ -52,9 +52,9 @@ bool ImGui_ImplSFML_ProcessEvent(const sf::Event* event)
 		{
 			auto pressed = event->type == sf::Event::MouseButtonPressed;
 
-		    if (event->mouseButton.button == sf::Mouse::Left) io.MouseClicked[0] = pressed;
-		    if (event->mouseButton.button == sf::Mouse::Right) io.MouseClicked[1] = pressed;
-		    if (event->mouseButton.button == sf::Mouse::Middle) io.MouseClicked[2] = pressed;
+		    if (event->mouseButton.button == sf::Mouse::Left) io.MouseDown[0] = pressed;
+		    if (event->mouseButton.button == sf::Mouse::Right) io.MouseDown[1] = pressed;
+		    if (event->mouseButton.button == sf::Mouse::Middle) io.MouseDown[2] = pressed;
 
 		    return true;
 		}
@@ -87,7 +87,7 @@ bool ImGui_ImplSFML_ProcessEvent(const sf::Event* event)
     return false;
 }
 
-static bool ImGui_ImplSFML_Init(sf::Window* window)
+IMGUI_IMPL_API void ImGui_ImplSFML_Init(sf::Window* window)
 {
     //g_Window = window;
 	
@@ -154,15 +154,10 @@ IMGUI_IMPL_API void ImGui_ImplSFML_NewFrame(sf::Window* window)
 	
     // Setup display size (every frame to accommodate for window resizing)
 	auto size = window->getSize();
-	
-	int w; 
-	int h;
-	int display_w; 
-	int display_h;
 
     io.DisplaySize = ImVec2((float)size.x, (float)size.y);
-    if (w > 0 && h > 0)
-        io.DisplayFramebufferScale = ImVec2((float)size.x, (float)size.y);
+    if (size.x > 0 && size.y > 0)
+        io.DisplayFramebufferScale = ImVec2(1, 1);
 	
     // Setup time step (we don't use SDL_GetTicks() because it is using millisecond resolution)
     //static Uint64 frequency = SDL_GetPerformanceFrequency();

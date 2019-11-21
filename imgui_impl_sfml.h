@@ -10,5 +10,7 @@ namespace sf
 //IMGUI_IMPL_API bool ImGui_ImplSFML_InitForVulkan(sf::Window* window);
 //IMGUI_IMPL_API bool ImGui_ImplSFML_InitForD3D(sf::Window* window);
 //IMGUI_IMPL_API void ImGui_ImplSFML_Shutdown();
+
+IMGUI_IMPL_API void ImGui_ImplSFML_Init(sf::Window* window);
 IMGUI_IMPL_API void ImGui_ImplSFML_NewFrame(sf::Window* window);
 IMGUI_IMPL_API bool ImGui_ImplSFML_ProcessEvent(const sf::Event* event);
